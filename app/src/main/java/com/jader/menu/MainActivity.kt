@@ -14,9 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
 import com.jader.menu.model.CalculationModel
 import com.jader.menu.ui.theme.MenuTheme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,6 +149,9 @@ class CalculationLogic {
         return CalculationModel(input = number, result = result)
     }
 }
+
+
+
 
 @Preview(showBackground = true)
 @Composable

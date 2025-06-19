@@ -1,6 +1,7 @@
 package com.jader.menu
 
 import CalculatorScreen
+import GuessingGameScreen
 import TextConverterScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -13,7 +14,8 @@ fun AppNavGraph(navController: NavHostController) {
         composable("main_menu") {
             MainMenuScreen(
                 onNavigateToCalculator = { navController.navigate("calculator") },
-                onNavigateToText = { navController.navigate("text") }
+                onNavigateToText = { navController.navigate("text") },
+                onNavigateToGuess = { navController.navigate("GuessGame") }
             )
         }
         composable("calculator") {
@@ -21,6 +23,9 @@ fun AppNavGraph(navController: NavHostController) {
         }
         composable("text") {
             TextConverterScreen()
+        }
+        composable("GuessGame") {
+            GuessingGameScreen()
         }
     }
 }
