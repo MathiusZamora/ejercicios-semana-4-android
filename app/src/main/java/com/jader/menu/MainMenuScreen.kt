@@ -15,7 +15,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun MainMenuScreen(
-    onNavigateToCalculator: () -> Unit
+    onNavigateToCalculator: () -> Unit,
+    onNavigateToText: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -40,6 +41,13 @@ fun MainMenuScreen(
             ) {
                 Text("Go to Calculator")
             }
+            Button(
+                onClick = onNavigateToText,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text("Go to TextConverter")
+            }
         }
+
     }
 }
