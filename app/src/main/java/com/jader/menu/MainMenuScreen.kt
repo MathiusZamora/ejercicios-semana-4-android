@@ -1,19 +1,15 @@
 package com.jader.menu
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+import androidx.compose.material3.ExperimentalMaterial3Api
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainMenuScreen(
     onNavigateToCalculator: () -> Unit,
@@ -23,48 +19,59 @@ fun MainMenuScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            Text(
-                text = "Ejercicios Semana 4",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(16.dp)
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Ejercicios Semana 4",
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             )
         }
-
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding)
+                .padding(24.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
                 onClick = onNavigateToCalculator,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
+                shape = MaterialTheme.shapes.medium
             ) {
                 Text("Go to Calculator")
             }
             Button(
                 onClick = onNavigateToText,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
+                shape = MaterialTheme.shapes.medium
             ) {
                 Text("Go to TextConverter")
             }
             Button(
                 onClick = onNavigateToGuess,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
+                shape = MaterialTheme.shapes.medium
             ) {
                 Text("Go to GuessGame")
             }
+            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = "By: Jader Mendoza y Mathius Zamora",
-                //style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.BottomEnd)
-                    .padding(6.dp)
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.align(Alignment.End),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-
     }
 }

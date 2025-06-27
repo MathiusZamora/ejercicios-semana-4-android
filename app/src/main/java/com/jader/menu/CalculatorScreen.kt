@@ -1,25 +1,15 @@
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.jader.menu.model.CalculationModel
 
@@ -32,24 +22,34 @@ fun CalculatorScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Text(
             text = "Calculator App",
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.primary
         )
 
         OutlinedTextField(
             value = multiplicationInput,
             onValueChange = {
                 multiplicationInput = it.filter { char -> char.isDigit() }
-                if (it.isNotEmpty()) factorialInput = "" // Clear factorial input when multiplication is edited
+                if (it.isNotEmpty()) factorialInput = ""
             },
             label = { Text("Enter number for multiplication table") },
             modifier = Modifier.fillMaxWidth(),
-            enabled = factorialInput.isEmpty() // Disable when factorial input is not empty
+            enabled = factorialInput.isEmpty(),
+            shape = MaterialTheme.shapes.medium,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                cursorColor = MaterialTheme.colorScheme.primary,
+                disabledBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
+            ),
+            singleLine = true
         )
 
         if (factorialInput.isEmpty()) {
@@ -60,11 +60,20 @@ fun CalculatorScreen(modifier: Modifier = Modifier) {
             value = factorialInput,
             onValueChange = {
                 factorialInput = it.filter { char -> char.isDigit() }
-                if (it.isNotEmpty()) multiplicationInput = "" // Clear multiplication input when factorial is edited
+                if (it.isNotEmpty()) multiplicationInput = ""
             },
             label = { Text("Enter number for factorial") },
             modifier = Modifier.fillMaxWidth(),
-            enabled = multiplicationInput.isEmpty() // Disable when multiplication input is not empty
+            enabled = multiplicationInput.isEmpty(),
+            shape = MaterialTheme.shapes.medium,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                cursorColor = MaterialTheme.colorScheme.primary,
+                disabledBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
+            ),
+            singleLine = true
         )
 
         if (multiplicationInput.isEmpty()) {
@@ -88,32 +97,45 @@ fun MultiplicationTableComposable(input: String, calculationLogic: CalculationLo
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            .padding(vertical = 12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+        shape = MaterialTheme.shapes.medium
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(24.dp)
         ) {
             Text(
                 text = "Multiplication Table",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             if (results.isNotEmpty()) {
-                LazyColumn {
+                LazyColumn(
+                    modifier = Modifier.heightIn(max = 280.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
                     items(results) { result ->
                         Text(
                             text = "${result.input} x ${result.multiplier} = ${result.result}",
-                            modifier = Modifier.padding(vertical = 4.dp)
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                                .background(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.shapes.small)
+                                .clickable { /* Optional: add click action */ }
+                                .padding(12.dp)
                         )
                     }
                 }
             } else {
                 Text(
                     text = "Enter a valid number to see the table",
-                    color = MaterialTheme.colorScheme.error
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
@@ -141,23 +163,27 @@ fun FactorialComposable(input: String, calculationLogic: CalculationLogic) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            .padding(vertical = 12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+        shape = MaterialTheme.shapes.medium
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(24.dp)
         ) {
             Text(
                 text = "Factorial Calculation",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = resultText,
-                modifier = Modifier.padding(vertical = 4.dp),
-                color = if (resultText.startsWith("Enter") || resultText.startsWith("Invalid") || resultText.contains("not defined") || resultText.contains("too large")) {
+                style = MaterialTheme.typography.bodyLarge,
+                color = if (resultText.startsWith("Enter") || resultText.startsWith("Invalid") ||
+                    resultText.contains("not defined") || resultText.contains("too large")
+                ) {
                     MaterialTheme.colorScheme.error
                 } else {
                     MaterialTheme.colorScheme.onSurface

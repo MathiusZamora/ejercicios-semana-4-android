@@ -1,16 +1,6 @@
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
@@ -22,33 +12,45 @@ fun TextConverterScreen() {
     val uppercaseText = textInput.text.uppercase()
     val lowercaseText = textInput.text.lowercase()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
     ) {
-        Text(
-            text = "Text Converter",
-            style = MaterialTheme.typography.headlineMedium
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            Text(
+                text = "Text Converter",
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.primary
+            )
 
-        OutlinedTextField(
-            value = textInput,
-            onValueChange = { textInput = it },
-            label = { Text("Enter your phrase") },
-            modifier = Modifier.fillMaxWidth()
-        )
+            OutlinedTextField(
+                value = textInput,
+                onValueChange = { textInput = it },
+                label = { Text("Enter your phrase") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                shape = MaterialTheme.shapes.medium,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    cursorColor = MaterialTheme.colorScheme.primary
+                )
+            )
 
-        Text(
-            text = "Uppercase: $uppercaseText",
-            style = MaterialTheme.typography.bodyLarge
-        )
+            Text(
+                text = "Uppercase: $uppercaseText",
+                style = MaterialTheme.typography.bodyLarge
+            )
 
-        Text(
-            text = "Lowercase: $lowercaseText",
-            style = MaterialTheme.typography.bodyLarge
-        )
+            Text(
+                text = "Lowercase: $lowercaseText",
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
     }
 }
